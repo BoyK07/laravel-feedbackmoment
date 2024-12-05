@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AttendeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{eventId}', [EventController::class, 'edit'])->name('events.edit');
         Route::put('edit/{eventId}', [EventController::class, 'update'])->name('events.update');
         Route::delete('destroy/{eventId}', [EventController::class,'destroy'])->name('events.destroy');
+    });
+
+    Route::group(['prefix'=> 'attendees'], function () {
+        Route::get('show/{eventId}', [AttendeeController::class, 'show'])->name('attendees.show');
+        Route::get('create/{eventId}', [AttendeeController::class, 'create'])->name('attendees.create');
+        Route::post('store/{eventId}', [AttendeeController::class, 'store'])->name('attendees.store');
     });
 
     Route::group(['prefix' => 'profile'], function () {
