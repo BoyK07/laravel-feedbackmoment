@@ -35,9 +35,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(['prefix'=> 'attendees'], function () {
-        Route::get('show/{eventId}', [AttendeeController::class, 'show'])->name('attendees.show');
+        Route::get('event/{eventId}', [AttendeeController::class, 'index'])->name('attendees.index');
         Route::get('create/{eventId}', [AttendeeController::class, 'create'])->name('attendees.create');
         Route::post('store/{eventId}', [AttendeeController::class, 'store'])->name('attendees.store');
+        Route::get('edit/{eventId}/{attendeeId}', [AttendeeController::class, 'edit'])->name('attendees.edit');
+        Route::put('update/{eventId}/{attendeeId}', [AttendeeController::class, 'update'])->name('attendees.update');
+        Route::delete('delete/{eventId}/{attendeeId}', [AttendeeController::class, 'destroy'])->name('attendees.destroy');
     });
 
     Route::group(['prefix' => 'profile'], function () {
