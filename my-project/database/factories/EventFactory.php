@@ -11,11 +11,24 @@ class EventFactory extends Factory
 
     public function definition(): array
     {
+        // Generate a start time
+        $start_time = $this->faker->dateTimeBetween('now', '+3 months');
+
+        // Determine the duration of the event
+        $durationType = $this->faker->randomElement(['short', 'long']);
+        if ($durationType === 'short') {
+            // Short duration: 1 to 2 hours
+            $end_time = (clone $start_time)->modify('+'.rand(1, 2).' hours');
+        } else {
+            // Long duration: 1 to 3 days
+            $end_time = (clone $start_time)->modify('+'.rand(1, 3).' hours');
+        }
+
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
-            'start_time' => $this->faker->dateTimeBetween('now', '+1 month'),
-            'end_time' => $this->faker->dateTimeBetween('+1 month', '+2 months'),
+            'start_time' => $start_time,
+            'end_time' => $end_time,
             'location' => $this->faker->city(),
         ];
     }

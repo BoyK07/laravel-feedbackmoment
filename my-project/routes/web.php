@@ -28,12 +28,15 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['prefix' => 'events'], function () {
         Route::get('', [EventController::class, 'index'])->name('events.index');
-        Route::get('create', [EventController::class, 'create'])->name('events.create');
-        Route::post('store', [EventController::class, 'store'])->name('events.store');
         Route::get('show/{eventId}', [EventController::class, 'show'])->name('events.show');
-        Route::get('edit/{eventId}', [EventController::class, 'edit'])->name('events.edit');
-        Route::put('edit/{eventId}', [EventController::class, 'update'])->name('events.update');
-        Route::delete('destroy/{eventId}', [EventController::class,'destroy'])->name('events.destroy');
+        Route::get('calendar', [EventController::class, 'calendar'])->name('events.calendar');
+        Route::middleware('role:admin')->group(function () {
+            Route::get('create', [EventController::class, 'create'])->name('events.create');
+            Route::post('store', [EventController::class, 'store'])->name('events.store');
+            Route::get('edit/{eventId}', [EventController::class, 'edit'])->name('events.edit');
+            Route::put('edit/{eventId}', [EventController::class, 'update'])->name('events.update');
+            Route::delete('destroy/{eventId}', [EventController::class,'destroy'])->name('events.destroy');
+        });
     });
 
     Route::group(['prefix'=> 'attendees'], function () {

@@ -19,6 +19,10 @@ class EventController extends Controller
         return view("events.show", compact("event"));
     }
 
+    public function calendar() {
+        return view("events.calendar");
+    }
+
     public function create()
     {
         return view("events.create");
@@ -81,5 +85,20 @@ class EventController extends Controller
         $event->delete();
         return redirect()->route('events.index')
             ->with('success', 'Event deleted successfully.');
+    }
+
+    public function get_events()
+    {
+        $events = Event::all();
+        $formattedEvents = $events->map(function ($event) {
+            return [
+                'title' => $event->title,
+                'start' => $event->start_time->format('Y-m-d\TH:i:s'),
+                'end' => $event->end_time->format('Y-m-d\TH:i:s'),
+                'url' => route('events.show', $event->id),
+            ];
+        });
+
+        return response()->json($formattedEvents);
     }
 }
