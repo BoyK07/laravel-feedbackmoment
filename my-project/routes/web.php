@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AttendeeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +43,24 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{eventId}/{attendeeId}', [AttendeeController::class, 'edit'])->name('attendees.edit');
         Route::put('update/{eventId}/{attendeeId}', [AttendeeController::class, 'update'])->name('attendees.update');
         Route::delete('delete/{eventId}/{attendeeId}', [AttendeeController::class, 'destroy'])->name('attendees.destroy');
+    });
+
+    Route::group(['prefix'=> 'users'], function () {
+        Route::get('', [UserController::class, 'index'])->name('users.index');
+        Route::get('create', [UserController::class,'create'])->name('users.create');
+        Route::post('store', [UserController::class,'store'])->name('users.store');
+        Route::get('edit/{userId}', [UserController::class,'edit'])->name('users.edit');
+        Route::put('update/{userId}', [UserController::class,'update'])->name('users.update');
+        Route::delete('destroy/{userId}', [UserController::class,'destroy'])->name('users.destroy');
+    });
+
+    Route::group(['prefix'=> 'roles'], function () {
+        Route::get('', [RoleController::class, 'index'])->name('roles.index');
+        Route::get('create', [RoleController::class, 'create'])->name('roles.create');
+        Route::post('store', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('edit/{roleId}', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::put('update/{roleId}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('destroy/{roleId}', [RoleController::class, 'destroy'])->name('roles.destroy');
     });
 
     Route::group(['prefix' => 'profile'], function () {
